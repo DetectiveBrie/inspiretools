@@ -30,8 +30,11 @@ auxtobib paper.aux > bibliography.bib
 
 The script `blgtobib` will fetch only `bibtex` entries which are not already in
 the `.bib` file associated with your project. It uses the `bibtex` log file
-associated with the LaTeX project. For example,
+associated with the LaTeX project.
+This function now identifies the first .bib file referenced in the .blg file. Using the --addtobib flag, you can instruct the script to append the entries to that bibliography. Otherwise, it will print the result.
+ For example,
 ```
+blgtobib paper.blg --addtobib
 blgtobib paper.blg >> bibliography.bib
 ```
-will append new entries to `bibliography.bib`.
+will be equivalent if paper.tex references the file bibliography.bib first.
