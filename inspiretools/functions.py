@@ -155,13 +155,21 @@ def blg2bib():
     bibstr = '\n'.join(bibs) # concatenate bib pieces into one
     
     # check existence of .bib file
-    if (bibfile is None) or (not os.path.exists(bibfile)):
-        LOGGER.error("File %s not found.", bibfile)
+    if bibfile is None:
+        LOGGER.info("No .bib file to update!")
         args.addtobib = False
 
+    if (not os.path.exists(bibfile)):
+        LOGGER.error("File %s not found.", bibfile)
+        args.addtobib = False
+    
+    
+    print("Missing bibliographic entries: %d" % len(texkeys) )
+    print("Matched on InspireHEP: %d" % len(bibs) )
     # Either print or add bib entries to .bib file
     if (not args.addtobib) or len(bibs) == 0:
         print(bibstr)
     else:
         with open(bibfile, 'a') as f:
             f.write('\n' + bibstr)
+        print("Entries added in %s: %d" % ( bibfile, len(bibs) ) )
