@@ -100,8 +100,12 @@ def texkey2bib(texkeys):
     err = []
     notfound = []
     result = []
+    ihep_rx = re.compile(r'^[A-Za-z]+:\d{4}[A-Za-z]+$')
     for i, texkey in enumerate(texkeys):
         try:
+            if re.match(ihep_rx, texkey) is None:
+                LOGGER.warning("The key %s is not an InspireHEP texkey (ignored)" % texkey)
+                continue
             LOGGER.info("Looking up reference %s of %s", str(i + 1), str(tot))
             inspire_query_params = {"q": "texkey=" + texkey, "format": "bibtex"}
             inspire_endpoint = "https://inspirehep.net/api/literature"
